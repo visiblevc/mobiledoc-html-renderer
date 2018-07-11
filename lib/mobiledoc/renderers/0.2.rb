@@ -27,9 +27,9 @@ module Mobiledoc
     end
 
     def validate_version(version)
-      if version != self.class::MOBILEDOC_VERSION
-        raise Mobiledoc::Error.new(%Q[Unexpected Mobiledoc version "#{version}"]);
-      end
+      # if version != self.class::MOBILEDOC_VERSION
+      #   raise Mobiledoc::Error.new(%Q[Unexpected Mobiledoc version "#{version}"]);
+      # end
     end
 
     def render
