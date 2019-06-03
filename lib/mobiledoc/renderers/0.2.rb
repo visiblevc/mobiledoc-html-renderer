@@ -7,6 +7,7 @@ require "mobiledoc/error"
 module Mobiledoc
   class Renderer_0_2
     MOBILEDOC_VERSIONS = ['0.2.0']
+    NBSP = Nokogiri::HTML('&nbsp;').text
 
     include Mobiledoc::Utils::SectionTypes
     include Mobiledoc::Utils::TagNames
@@ -43,7 +44,7 @@ module Mobiledoc
         end
       end
 
-      root.to_html(save_with: 0).gsub('  ', ' &nbsp;')
+      root.to_html(save_with: 0)
     end
 
     def create_document_fragment
@@ -60,7 +61,7 @@ module Mobiledoc
     end
 
     def create_text_node(text)
-      Nokogiri::XML::Text.new(text, doc)
+      Nokogiri::XML::Text.new(text.gsub('  ', " #{NBSP}"), doc)
     end
 
     def create_element_from_marker_type(tag_name='', attributes=[])
