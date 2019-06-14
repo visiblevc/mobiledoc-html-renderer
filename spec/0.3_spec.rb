@@ -453,10 +453,43 @@ module ZeroThreeZero
 
       rendered = render(mobiledoc)
 
-      sn = ' &nbsp;'
+      sn = " #{Nokogiri::HTML('&nbsp;').text}"
       expected_text = [ sn * 2, 'some', sn * 2, space, 'text', sn * 3 ].join
 
       expect(rendered).to eq("<div><p>#{expected_text}</p></div>")
+    end
+
+    it 'spaces within cards are not converted to nbsps' do
+      card = Module.new do
+        module_function
+
+        def name
+          'space-card'
+        end
+
+        def type
+          'html'
+        end
+
+        def render(env, payload, options)
+          '   '
+        end
+      end
+
+      mobiledoc = {
+        'version' => MOBILEDOC_VERSION,
+        'atoms' => [],
+        'cards' => [
+          ['space-card', {}]
+        ],
+        'markups' => [],
+        'sections' => [
+          [CARD_SECTION_TYPE, 0]
+        ]
+      }
+      rendered = Mobiledoc::HTMLRenderer.new(cards: [card]).render(mobiledoc)
+
+      expect(rendered).to eq('<div><div>   </div></div>')
     end
 
     it 'throws when given an unexpected mobiledoc version' do

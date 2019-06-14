@@ -440,7 +440,7 @@ module ZeroTwoZero
 
       rendered = render(mobiledoc)
 
-      sn = ' &nbsp;'
+      sn = " #{Nokogiri::HTML('&nbsp;').text}"
       expected_text = [ sn * 2, 'some', sn * 2, space, 'text', sn * 3 ].join
 
       expect(rendered).to eq("<div><p>#{expected_text}</p></div>")
