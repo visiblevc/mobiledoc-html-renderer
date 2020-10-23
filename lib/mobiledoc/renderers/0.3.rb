@@ -4,7 +4,7 @@ require "mobiledoc/error"
 
 module Mobiledoc
   class Renderer_0_3 < Renderer_0_2
-    MOBILEDOC_VERSIONS = ['0.3.0', '0.3.1']
+    MOBILEDOC_VERSIONS = ['0.3.0', '0.3.1', '0.3.2']
 
     include Mobiledoc::Utils::MarkerTypes
 
@@ -25,6 +25,13 @@ module Mobiledoc
       self.card_options = state[:card_options]
       self.unknown_card_handler = state[:unknown_card_handler]
       self.unknown_atom_handler = state[:unknown_atom_handler]
+    end
+
+    def render_markup_section(type, tag_name, markers, attributes = [])
+      element = super(type, tag_name, markers)
+      set_attributes(element, attributes)
+
+      element
     end
 
     def render_card_section(type, index)

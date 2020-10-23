@@ -56,6 +56,12 @@ module Mobiledoc
       Nokogiri::XML::Node.new(tag_name, doc)
     end
 
+    def set_attributes(element, attributes)
+      attributes.each_slice(2) do |prop_name, prop_value|
+        set_attribute(element, prop_name, prop_value)
+      end
+    end
+
     def set_attribute(element, prop_name, prop_value)
       element.set_attribute(prop_name, prop_value)
     end
@@ -66,10 +72,7 @@ module Mobiledoc
 
     def create_element_from_marker_type(tag_name='', attributes=[])
       element = create_element(tag_name)
-
-      attributes.each_slice(2) do |prop_name, prop_value|
-        set_attribute(element, prop_name, prop_value)
-      end
+      set_attributes(element, attributes)
 
       element
     end
